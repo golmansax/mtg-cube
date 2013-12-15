@@ -1,2 +1,4 @@
-mtg-cube
+MTG Cube
 ========
+TODO:
+* make site
