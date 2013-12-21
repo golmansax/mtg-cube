@@ -1,0 +1,8 @@
+# Vim swp
+*.swp
+
+# Generated data files
+data/generated
+
+# Downloaded data files (script will download for you)
+data/dls
