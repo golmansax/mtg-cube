@@ -3,37 +3,50 @@
 import os, re, json
 
 DATABASE_FILE = 'dls/mtg_database.txt'
-COLOR_MAP = {'W' : 'White', 'B': 'Black', 'U': 'Blue', 'R': 'Red', 'G': 'Green'}
-ACT_TYPES = ['Enchant', 'Creature', 'Land', 'Sorcery', 'Instant', 'Planeswalker', 'Artifact']
 COLOR_REGEX = '[wburgWBURG]'
 
+COLOR_MAP = {
+  'W' : 'White', 'B': 'Black', 'U': 'Blue', 'R': 'Red', 'G': 'Green'
+}
 
-# lets read in the database and create a map
+ACT_TYPES = [
+  'Enchant', 'Creature', 'Land', 'Sorcery', 'Instant', 'Planeswalker',
+  'Artifact'
+]
+
+OUT_DIR = 'generated'
+OUT_FILE = 'cube_json.txt'
+
+# Lets read in the database and create a map
 fin = open(DATABASE_FILE, 'r')
 
 def make_card(text):
   ret = {}
   ret['name'] = text[0]
-  # need flag for cards with no mana cost or are flip cards
+  # Need flag for cards with no mana cost or are flip cards
   extra_lines = 1
   if 'Land' in text[1]:
     ret['group'] = 'Land'
     extra_lines = 0
   elif re.search('\(%s\/%s\)' % (COLOR_REGEX, COLOR_REGEX), text[1]):
     ret['group'] = 'Multicolored'
-  elif re.search('\(%s\/p\)' % COLOR_REGEX, text[1])
+  elif re.search('\(%s\/p\)' % COLOR_REGEX, text[1]):
     # TODO lower to upper and look in COLORMAP
-  elif re.search('\(\d\/%s\)' % COLOR_REGEX, text[1])
+    ret['group'] = 'Multicolored'
+  elif re.search('\(\d\/%s\)' % COLOR_REGEX, text[1]):
     # TODO lower to upper and look in COLORMAP
+    ret['group'] = 'Multicolored'
   elif not re.search('^X*\d*[A-Z]*$', text[1]):
     ret['group'] = 'Other'
     extra_lines = 0
   elif not re.search(COLOR_REGEX, text[1]): ret['group'] = 'Colorless'
   else:
-    # remove X's
+    letters = text[1]
+
+    # Remove X's
     letters = letters.replace('X', '')
-    # remove the numbers and see if the letters duplicate
-    letters = re.sub('^\d*([^A-Z])', '', text[1])
+    # Remove the numbers and see if the letters duplicate
+    letters = re.sub('^\d*([^A-Z])', '', letters)
 
     first = letters[0]
     is_multi = False
@@ -56,7 +69,7 @@ def make_card(text):
   ret['conv_cost'] = conv_cost
 
   ret['type'] = text[1 + extra_lines]
-  # find actual card type
+  # Find actual card type
   for act_type in ACT_TYPES:
     if act_type in ret['type']:
       if act_type == 'Enchant': ret['act_type'] = 'Enchantment'
@@ -72,7 +85,7 @@ def make_card(text):
 
   ret['text'] = '|'.join(text[(2 + extra_lines):(len(text) - 1)])
   return ret
-# end make card
+# End make card
 
 card_map = {}
 name = ''
@@ -91,16 +104,16 @@ fin.close()
 
 print 'Indexed %d cards' % len(card_map)
 
-# assuming d[k] = list of v's
+# Assuming d[k] = list of v's
 def smart_append(d, k, v):
   if k in d: d[k].append(v)
   else: d[k] = [v]
 
-# create an array of used cards for each color/land/artifact
+# Create an array of used cards for each color/land/artifact
 cube_map = {}
-for fname in os.listdir('raw'):
+for fname in os.listdir('mw_decks'):
   if fname.endswith('.mwDeck'):
-    fin = open('data/%s' % fname, 'r')
+    fin = open('mw_decks/%s' % fname, 'r')
     for line in fin:
       line = line.rstrip()
       if not ']' in line: continue
@@ -113,6 +126,7 @@ for fname in os.listdir('raw'):
 for group, cards in cube_map.items():
   print 'Added %d %s cards' % (len(cards), group)
 
-fout = open('generated/cube_json.txt', 'w')
+if not os.path.exists(OUT_DIR): os.makedirs(OUT_DIR)
+fout = open('%s/%s' % (OUT_DIR, OUT_FILE), 'w')
 json.dump(cube_map, fout, separators=(',' , ':'))
 fout.close()

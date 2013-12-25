@@ -29,9 +29,9 @@ git submodule foreach git pull origin master
 compile_compass
 
 if [ $1 == 'dev' ]; then
-  python $APP_FILE
+  python $APP_FILE dev
 elif [ $1 == 'prod' ]; then
-  python $APP_FILE
+  python $APP_FILE prod
 else
   usage
 fi
