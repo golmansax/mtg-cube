@@ -34,6 +34,9 @@ compile_sass() {
 
 compile_js() {
   r.js -o assets/js/build.js
+
+  # Remove the generated build.txt file
+  rm static/assets/build.txt
 }
 
 # Go into script directory (which is the repo directory)

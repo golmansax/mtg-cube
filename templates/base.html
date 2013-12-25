@@ -2,13 +2,12 @@
 <html>
   <head>
     {% for css_file in css_files %}
-      <link rel="stylesheet" href="{{ url_for('static', filename=css_file) }}">
+      <link rel="stylesheet" href="{{ css_file | url_for_asset }}">
     {% endfor %}
 
-    <script src="http://requirejs.org/docs/release/2.1.9/minified/require.js"
-        {% if require_js_main %}data-main="{{ require_js_main }}"{% endif %}
-        >
-    </script>
+    {% if require_js %}
+      <script src="{{ require_js | url_for_asset }}"></script>
+    {% endif %}
 
     <title>{% block title %}{% endblock %} - My Webpage</title>
   </head>
