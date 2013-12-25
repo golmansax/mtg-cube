@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
-{% set css_files = ['app.css'] %}
-{% set require_js = 'app.js' %}
+{% set CSS_FILES = ['app.css'] %}
+{% set JS_FILES = ['app.js'] %}
 
-{% set cube_tabs = [
+{% set CUBE_TABS = [
   'White',
   'Blue',
   'Black',
   'Red',
   'Green',
   'Artifact',
-  'Multi',
+  'Multicolored',
   'Land'
 ] %}
 
@@ -24,27 +24,33 @@
     for a text file of the MTG database.
   </p>
 
-  <ul class="nav nav-tabs">
-  {% for tab in cube_tabs %}
-    <li><a href="#{{ tab|lower }}" data-toggle="tab">{{ tab }}</a></li>
-  {% endfor %}
-  </ul>
+  <div ng-controller="CubeTabsCtrl">
+    <ul class="nav nav-tabs">
+    {% for tab in CUBE_TABS %}
+      <li><a ng-click="SetTab('{{ tab }}')" data-toggle="tab">{{ tab }}</a></li>
+    {% endfor %}
+    </ul>
 
-  <div id="cube_content" class="tab-content">
-  {% for tab in cube_tabs %}
-    <div class="tab-pane" id="{{ tab|lower }}">
-      <table class="table table-hover table-bordered">
-        <thead>
-          <th><a href="javascript:void(0)" class="mana">Mana Cost</a></th>
-          <th><a href="javascript:void(0)" class="name">Name</a></th>
-          <th><a href="javascript:void(0)" class="type">Type</a></th>
-          <th>Text</th>
-          <th><a href="javascript:void(0)" class="p">P</a></th>
-          <th><a href="javascript:void(0)" class="t">T</a></th>
-        </thead>
-        <tbody></tbody>
-      </table>
+    [[ current_tab ]]
+
+    {#
+    <div id="cube_content" class="tab-content">
+    {% for tab in cube_tabs %}
+      <div class="tab-pane" id="{{ tab|lower }}">
+        <table class="table table-hover table-bordered">
+          <thead>
+            <th><a href="javascript:void(0)" class="mana">Mana Cost</a></th>
+            <th><a href="javascript:void(0)" class="name">Name</a></th>
+            <th><a href="javascript:void(0)" class="type">Type</a></th>
+            <th>Text</th>
+            <th><a href="javascript:void(0)" class="p">P</a></th>
+            <th><a href="javascript:void(0)" class="t">T</a></th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    {% endfor %}
     </div>
-  {% endfor %}
+    #}
   </div>
 {% endblock %}

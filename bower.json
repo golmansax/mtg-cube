@@ -16,6 +16,8 @@
   "dependencies": {
     "my-sass-core": "golmansax/my-sass-core",
 
-    "requirejs": "latest"
+    "requirejs": "latest",
+    "requirejs-domready": "latest",
+    "angular": "latest"
   }
 }

@@ -12,7 +12,7 @@ usage() {
   exit
 }
 
-if [ $# -lt 1 ]; then usage; fi
+if [[ $# -lt 1 || ( $ENV != 'dev' && $ENV != 'prod' ) ]]; then usage; fi
 
 # Pull the latest files
 pull_latest() {
@@ -23,8 +23,7 @@ pull_latest() {
     git pull
   fi
 
-  git submodule init
-  git submodule foreach git pull origin master
+  bower update
 }
 
 # Compile the Sass files
@@ -33,10 +32,16 @@ compile_sass() {
 }
 
 compile_js() {
-  r.js -o assets/js/build.js
+  if [ $ENV == 'dev' ]; then
+    # No minifying in dev
+    r.js -o assets/js/build.js optimize=none
+  elif [ $ENV == 'prod' ]; then
+    r.js -o assets/js/build.js
+  fi
 
   # Remove the generated build.txt file
-  rm static/assets/build.txt
+  # TODO: This doesnt exist because I'm compiling individually
+  #rm static/assets/build.txt
 }
 
 # Go into script directory (which is the repo directory)
@@ -46,8 +51,5 @@ pull_latest
 compile_sass
 compile_js
 
-if [ $ENV == 'dev' ] || [ $ENV == 'prod' ]; then
-  python $APP_FILE $ENV
-else
-  usage
-fi
+# Launch app
+python $APP_FILE $ENV

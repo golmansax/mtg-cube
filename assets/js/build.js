@@ -1,7 +1,4 @@
 ({
-  // Has to go down directories because build.js lives in assets/js
-  dir: '../../static/assets',
-
   // Remove unused files
   removeCombined: true,
 
@@ -14,13 +11,24 @@
   // Exclude this build file from out dir
   fileExclusionRegExp: /^\.|build.js/,
 
+  // Allow 'use strict';
+  useStrict: true,
+
   paths: {
-    requireLib: '../../bower_components/requirejs/require'
+    requireLib: '../../bower_components/requirejs/require',
+    domReady: '../../bower_components/requirejs-domready/domReady',
+    angular: '../../bower_components/angular/angular'
   },
 
-  modules: [
-    { name: 'app',
-      include: 'requireLib'
+  shim: {
+    angular: {
+      exports: 'angular'
     }
-  ]
+  },
+
+  name: 'app',
+  include: ['requireLib'],
+  out: '../../static/assets/app.js',
+
+  deps: ['bootstrap']
 })

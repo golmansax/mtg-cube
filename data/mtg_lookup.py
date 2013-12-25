@@ -15,7 +15,7 @@ ACT_TYPES = [
 ]
 
 OUT_DIR = 'generated'
-OUT_FILE = 'cube_json.txt'
+OUT_FILE = 'cube.json'
 
 # Lets read in the database and create a map
 fin = open(DATABASE_FILE, 'r')

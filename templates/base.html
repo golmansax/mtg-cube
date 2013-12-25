@@ -1,17 +1,16 @@
 <!doctype html>
-<html>
+<html {% if NG_APP %}ng-app="{{ NG_APP }}"{% endif %}>
   <head>
-    {% for css_file in css_files %}
+    {% for css_file in CSS_FILES %}
       <link rel="stylesheet" href="{{ css_file | url_for_asset }}">
     {% endfor %}
-
-    {% if require_js %}
-      <script src="{{ require_js | url_for_asset }}"></script>
-    {% endif %}
-
     <title>{% block title %}{% endblock %} - My Webpage</title>
   </head>
   <body>
     {% block body %}{% endblock %}
+
+    {% for js_file in JS_FILES %}
+      <script src="{{ js_file | url_for_asset }}"></script>
+    {% endfor %}
   </body>
 </html>
