@@ -1,8 +1,13 @@
 # Vim swp
 *.swp
 
-# Generated data files
-data/generated
+# Generated assets
+static/assets
 
+# Sass cache
+.sass-cache
+
+# Generated data files
 # Downloaded data files (script will download for you)
+data/generated
 data/dls
