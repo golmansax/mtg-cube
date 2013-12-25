@@ -5,6 +5,7 @@
 # Shortcut script to deploy Flask web server and compile Sass
 
 APP_FILE=app.py
+ENV=$1
 
 usage() {
   echo "Usage ./deploy.sh (dev|prod)"
@@ -13,25 +14,37 @@ usage() {
 
 if [ $# -lt 1 ]; then usage; fi
 
+# Pull the latest files
+pull_latest() {
+  if [ $ENV == 'dev' ]; then
+    git pull --no-rebase
+  elif [ $ENV == 'prod' ]; then
+    # Don't allow uncommited changes in prod
+    git pull
+  fi
+
+  git submodule init
+  git submodule foreach git pull origin master
+}
+
 # Compile the Sass files
-compile_compass() {
-  compass compile -c assets/compass_config.rb --force
+compile_sass() {
+  compass compile -c assets/sass/compass.rb --force
+}
+
+compile_js() {
+  r.js -o assets/js/build.js
 }
 
 # Go into script directory (which is the repo directory)
 cd "$(dirname "$0")"
 
-# Pull the latest files
-git pull
-git submodule init
-git submodule foreach git pull origin master
+pull_latest
+compile_sass
+compile_js
 
-compile_compass
-
-if [ $1 == 'dev' ]; then
-  python $APP_FILE dev
-elif [ $1 == 'prod' ]; then
-  python $APP_FILE prod
+if [ $ENV == 'dev' ] || [ $ENV == 'prod' ]; then
+  python $APP_FILE $ENV
 else
   usage
 fi

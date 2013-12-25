@@ -11,3 +11,6 @@ static/assets
 # Downloaded data files (script will download for you)
 data/generated
 data/dls
+
+# Files downloaded via Bower
+bower_components

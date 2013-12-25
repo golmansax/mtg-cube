@@ -1,0 +1,21 @@
+{
+  "name": "mtg-cube",
+  "version": "0.0.0",
+  "homepage": "https://github.com/golmansax/mtg-cube",
+  "authors": [
+    "Holman Gao <holman@golmansax.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "my-sass-core": "golmansax/my-sass-core",
+
+    "requirejs": "latest"
+  }
+}
