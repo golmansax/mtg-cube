@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+{% set cube_tabs = [
+  'White',
+  'Blue',
+  'Black',
+  'Red',
+  'Green',
+  'Artifact',
+  'Multi',
+  'Land'
+] %}
+
 {% block content %}
   <p>
     If you are familiar with Magic the Gathering, here is a card list of the
@@ -10,7 +21,6 @@
     for a text file of the MTG database.
   </p>
 
-  {#
   <ul class="nav nav-tabs">
   {% for tab in cube_tabs %}
     <li><a href="#{{ tab|lower }}" data-toggle="tab">{{ tab }}</a></li>
@@ -34,5 +44,4 @@
     </div>
   {% endfor %}
   </div>
-#}
 {% endblock %}
