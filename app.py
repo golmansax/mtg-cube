@@ -9,7 +9,7 @@ def app():
 
 if __name__ == '__main__':
   # Check if we should run in production
-  if len(sys.argv) >= 2 and sys.argv[2] == 'prod':
+  if len(sys.argv) >= 3 and sys.argv[2] == 'prod':
     print 'Running app in production'
   else:
     print 'Running app in development'
