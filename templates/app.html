@@ -7,7 +7,7 @@
 {# Keep this sync'd with the cube_map.json (We are doing it this way to avoid
  #   having to decode json on the server every page visit
  #}
-{% set CUBE_TABS = [
+{% set CUBE_COLORS = [
   'White',
   'Blue',
   'Black',
@@ -55,11 +55,13 @@
     for a text file of the MTG database.
   </p>
 
-  <div ng-controller="CubeTabsCtrl" ng-init="SetTab('{{ CUBE_TABS[0] }}')">
+  <div ng-controller="CubeTabsCtrl"
+      ng-init="current.color = ('{{ CUBE_COLORS[0] }}' | format_color)">
     <ul class="nav nav-tabs">
-      {% for tab in CUBE_TABS %}
+      {% for tab in CUBE_COLORS %}
         <li>
-          <a ng-click="SetTab('{{ tab }}')" href="javascript:void(0)">
+          <a ng-click="current.color = ('{{ tab }}' | format_color)"
+              href="javascript:void(0)">
             {{ tab }}
           </a>
         </li>
@@ -92,8 +94,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="card in GetCards() | card_sort:current.sort"
-                bindonce>
+            <tr ng-repeat="card in GetCards()" bindonce>
               {% for column in COLUMNS %}
                 {# Differentiate between text and html #}
                 {% set bo_text = false %}

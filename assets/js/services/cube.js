@@ -1,17 +1,39 @@
-define(['./module'], function(filters) {
+define(['./module'], function(services) {
   'use strict';
 
-  filters.filter('card_sort', CardSortFilter);
+  services.factory('cube', ['$filter', 'from_server', Cube]);
 
   return;
 
-  function CardSortFilter() {
+  function Cube($filter, from_server) {
+    // This service
+    var cube = {};
+
+    // Store a map of the cube, from color => array of cards
+    // The original data is stored in this format
+    var _cube_map;
+    _InitCubeMap();
+
+    // Comparision functions used in sorting
     var _CompareFns;
     _InitCompareFns();
 
-    return function(cards, bias) {
-      cards.sort(_CompareFns[bias] || _CompareFns.Default);
-      return cards;
+    // Returns an array of cards based on the options provided
+    // Supported opts:
+    //   color
+    //   sort - Can be empty
+    cube.GetCards = _GetCards;
+
+
+    return cube;
+
+    function _InitCubeMap() {
+      _cube_map = {};
+      var temp_cube_map = from_server.Get('cube_map');
+
+      for (var color in temp_cube_map) {
+        _cube_map[$filter('format_color')(color)] = temp_cube_map[color];
+      }
     }
 
     function _InitCompareFns() {
@@ -48,6 +70,18 @@ define(['./module'], function(filters) {
       _CompareFns.Name = function(a, b) {
         return a['name'].localeCompare(b['name']);
       };
+    }
+
+    function _GetCards(opts) {
+      var cards;
+
+      // First filter by color
+      // TODO: don't require this step!
+      if (opts.color) cards = _cube_map[opts.color];
+
+      // Now sort the remaining cards
+      cards.sort(_CompareFns[opts.sort] || _CompareFns.Default);
+      return cards;
     }
   }
 });

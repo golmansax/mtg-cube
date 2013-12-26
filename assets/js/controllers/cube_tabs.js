@@ -2,46 +2,43 @@ define(['./module'], function(controllers) {
   'use strict';
 
   controllers.controller('CubeTabsCtrl', [
-    '$scope', 'from_server',
+    '$scope', 'cube',
     CubeTabsCtrl
   ]);
 
   return;
 
-  function CubeTabsCtrl($scope, from_server) {
-    var _cube_map;
-    _InitCubeMap();
-
+  function CubeTabsCtrl($scope, cube) {
     // This keeps track of current page state
     $scope.current = {
-      tab: null,
+      color: null,
       sort: null
     }
 
-    $scope.SetTab = function(tab) {
-      $scope.current.tab = _FormatTabKey(tab);
-    };
+    // Keep track of last state that generated a cardlist
+    var _previous, _cached_cards;
 
     $scope.GetCards = function() {
-      return _cube_map[$scope.current.tab];
-    };
+      if (_previous) {
+        // Do a deep check to see if the states are equal
+        var equal = true;
+        for (var key in _previous) {
+          if (_previous[key] !== $scope.current[key]) {
+            equal = false;
+            break;
+          }
+        }
 
-    return;
-
-    // We use this function to sync how the tab is stored in the map
-    // Right now all of the tabs are stored in lower case only, to support
-    // routing directly to the page.
-    function _FormatTabKey(tab) {
-      return tab.toLowerCase();
-    }
-
-    function _InitCubeMap() {
-      _cube_map = {};
-      var temp_cube_map = from_server.Get('cube_map');
-
-      for (var tab in temp_cube_map) {
-        _cube_map[_FormatTabKey(tab)] = temp_cube_map[tab];
+        if (equal) return _cached_cards;
       }
-    }
+
+      var my_cards = cube.GetCards($scope.current);
+
+      // Cache cards
+      _previous = angular.extend({}, $scope.current);
+      _cached_cards = my_cards;
+
+      return my_cards;
+    };
   }
 });
