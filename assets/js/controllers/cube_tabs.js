@@ -12,19 +12,18 @@ define(['./module'], function(controllers) {
     var _cube_map;
     _InitCubeMap();
 
-    // This keeps track of what tab we are on
-    var _current_tab;
-
-    $scope.InitTab = function(tab) {
-      _current_tab = _FormatTabKey(tab);
-    };
+    // This keeps track of current page state
+    $scope.current = {
+      tab: null,
+      sort: null
+    }
 
     $scope.SetTab = function(tab) {
-      _current_tab = _FormatTabKey(tab);
+      $scope.current.tab = _FormatTabKey(tab);
     };
 
     $scope.GetCards = function() {
-      return _cube_map[_current_tab];
+      return _cube_map[$scope.current.tab];
     };
 
     return;

@@ -4,7 +4,7 @@
     {% for css_file in CSS_FILES %}
       <link rel="stylesheet" href="{{ css_file | url_for_asset }}">
     {% endfor %}
-    <title>{% block title %}{% endblock %} - My Webpage</title>
+    <title>{{ TITLE }}</title>
   </head>
   <body>
     {% block body %}{% endblock %}

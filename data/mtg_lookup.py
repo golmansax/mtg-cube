@@ -9,7 +9,7 @@ COLOR_MAP = {
   'W' : 'White', 'B': 'Black', 'U': 'Blue', 'R': 'Red', 'G': 'Green'
 }
 
-ACT_TYPES = [
+GENERIC_TYPES = [
   'Enchant', 'Creature', 'Land', 'Sorcery', 'Instant', 'Planeswalker',
   'Artifact'
 ]
@@ -70,14 +70,14 @@ def make_card(text):
 
   ret['type'] = text[1 + extra_lines]
   # Find actual card type
-  for act_type in ACT_TYPES:
-    if act_type in ret['type']:
-      if act_type == 'Enchant': ret['act_type'] = 'Enchantment'
-      else: ret['act_type'] = act_type
+  for generic_type in GENERIC_TYPES:
+    if generic_type in ret['type']:
+      if generic_type == 'Enchant': ret['generic_type'] = 'Enchantment'
+      else: ret['generic_type'] = generic_type
       break
-  if 'act_type' not in ret: ret['act_type'] = 'Other'
+  if 'generic_type' not in ret: ret['generic_type'] = 'Other'
 
-  if ret['act_type'] == 'Creature':
+  if ret['generic_type'] == 'Creature':
     pt = text[2 + extra_lines].split('/')
     ret['p'] = pt[0]
     ret['t'] = pt[1]

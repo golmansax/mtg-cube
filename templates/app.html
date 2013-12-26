@@ -2,9 +2,10 @@
 
 {% set CSS_FILES = ['app.css'] %}
 {% set JS_FILES = ['app.js'] %}
+{% set TITLE = 'MTG Cube' %}
 
 {# Keep this sync'd with the cube_map.json (We are doing it this way to avoid
- # having to decode json on the server every page visit
+ #   having to decode json on the server every page visit
  #}
 {% set CUBE_TABS = [
   'White',
@@ -17,6 +18,33 @@
   'Land'
 ] %}
 
+{# NOTE: In the regex_replace, I needed four \'s because Jinja would escape
+ #   a char and JS would do it as well...
+ #}
+{% set COLUMNS = [
+  { 'header': 'Mana Cost',
+    'data': { 'text': 'mana_cost' },
+    'sort': 'ManaCost',
+  },
+  { 'header': 'Name',
+    'data': { 'text': 'name' },
+    'sort': 'Name',
+  },
+  { 'header': 'Type',
+    'data': { 'text': 'type' },
+    'sort': 'Type',
+  },
+  { 'header': 'Text',
+    'data': { 'html': "text | regex_replace:'\\\\|':'g':'<br>'" },
+  },
+  { 'header': 'P',
+    'data': { 'text': 'p' },
+  },
+  { 'header': 'T',
+    'data': { 'text': 't' },
+  },
+] %}
+
 {% block body %}
   <p>
     If you are familiar with Magic the Gathering, here is a card list of the
@@ -27,34 +55,59 @@
     for a text file of the MTG database.
   </p>
 
-  <div ng-controller="CubeTabsCtrl" ng-init="InitTab('{{ CUBE_TABS[0] }}')">
+  <div ng-controller="CubeTabsCtrl" ng-init="SetTab('{{ CUBE_TABS[0] }}')">
     <ul class="nav nav-tabs">
-    {% for tab in CUBE_TABS %}
-      <li>
-        <a ng-click="SetTab('{{ tab }}')" data-toggle="tab">{{ tab }}</a>
-      </li>
-    {% endfor %}
+      {% for tab in CUBE_TABS %}
+        <li>
+          <a ng-click="SetTab('{{ tab }}')" href="javascript:void(0)">
+            {{ tab }}
+          </a>
+        </li>
+      {% endfor %}
     </ul>
 
     <div id="cube_content" class="tab-content">
       <div class="tab-pane" id="{{ tab|lower }}">
-        <table class="table table-hover table-bordered">
+        <table ng-cloak class="table table-hover table-bordered">
           <thead>
-            <th><a href="javascript:void(0)" class="mana">Mana Cost</a></th>
-            <th><a href="javascript:void(0)" class="name">Name</a></th>
-            <th><a href="javascript:void(0)" class="type">Type</a></th>
-            <th>Text</th>
-            <th><a href="javascript:void(0)" class="p">P</a></th>
-            <th><a href="javascript:void(0)" class="t">T</a></th>
+            <tr>
+              {% for column in COLUMNS %}
+                {# This will be used if clicking the column header will
+                 # trigger a card sort
+                 #}
+                {% set ng_click = false %}
+                {% if column.sort %}
+                  {% set ng_click =
+                      "current.sort = '%s'" | format(column.sort) %}
+                {% endif %}
+
+                <th>
+                  {% if ng_click %}
+                    <a ng-click="{{ ng_click }}" href="javascript:void(0)">
+                  {% endif %}
+                  {{ column.header }}
+                  {% if ng_click %}</a>{% endif %}
+                </th>
+              {% endfor %}
+            </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="card in GetCards()" bindonce>
-              <td bo-text="card.mana_cost"></td>
-              <td bo-text="card.name"></td>
-              <td bo-text="card.type"></td>
-              <td bo-text="card.text"></td>
-              <td bo-text="card.p || ''"></td>
-              <td bo-text="card.t || ''"></td>
+            <tr ng-repeat="card in GetCards() | card_sort:current.sort"
+                bindonce>
+              {% for column in COLUMNS %}
+                {# Differentiate between text and html #}
+                {% set bo_text = false %}
+                {% set bo_html = false %}
+                {% if column.data.text %}
+                  {% set bo_text = "card.%s" | format(column.data.text) %}
+                {% elif column.data.html %}
+                  {% set bo_html = "card.%s" | format(column.data.html) %}
+                {% endif %}
+
+                <td {% if bo_text %}bo-text="{{ bo_text }}"{% endif %}
+                    {% if bo_html %}bo-html="{{ bo_html }}"{% endif %}>
+                </td>
+              {% endfor %}
             </tr>
           </tbody>
         </table>
