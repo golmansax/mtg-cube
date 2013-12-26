@@ -19,11 +19,12 @@ def url_for_asset_filter(filename):
 
 if __name__ == '__main__':
   # Check if we should run in production
-  if len(sys.argv) >= 3 and sys.argv[2] == 'prod':
+  if len(sys.argv) >= 2 and sys.argv[1] == 'prod':
     # Production
-    app.port = 7702
+    port = 7702
   else:
     # Development
     app.debug = True
+    port = 5000
 
-  app.run()
+  app.run(port=port)
