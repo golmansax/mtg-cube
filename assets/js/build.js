@@ -14,15 +14,22 @@
   // Allow 'use strict';
   useStrict: true,
 
+  // Wrap all of our modules in a closure
+  wrap: true,
+
   paths: {
     requireLib: '../../bower_components/requirejs/require',
     domReady: '../../bower_components/requirejs-domready/domReady',
-    angular: '../../bower_components/angular/angular'
+    angular: '../../bower_components/angular/angular',
+    bindonce: '../../bower_components/angular-bindonce/bindonce'
   },
 
   shim: {
     angular: {
-      exports: 'angular'
+      exports: 'angular',
+    },
+    bindonce: {
+      deps: ['angular']
     }
   },
 
@@ -30,5 +37,5 @@
   include: ['requireLib'],
   out: '../../static/assets/app.js',
 
-  deps: ['bootstrap']
+  deps: ['ng_bootstrap']
 })

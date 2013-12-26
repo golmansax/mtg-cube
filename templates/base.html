@@ -9,6 +9,14 @@
   <body>
     {% block body %}{% endblock %}
 
+    {% if JS_VARS_FROM_SERVER_JSON %}
+      {% autoescape off %}
+      <script type="text/javascript">
+        window.JS_VARS_FROM_SERVER = {{ JS_VARS_FROM_SERVER_JSON }};
+      </script>
+      {% endautoescape %}
+    {% endif %}
+
     {% for js_file in JS_FILES %}
       <script src="{{ js_file | url_for_asset }}"></script>
     {% endfor %}

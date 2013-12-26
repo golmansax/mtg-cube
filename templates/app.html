@@ -3,13 +3,16 @@
 {% set CSS_FILES = ['app.css'] %}
 {% set JS_FILES = ['app.js'] %}
 
+{# Keep this sync'd with the cube_map.json (We are doing it this way to avoid
+ # having to decode json on the server every page visit
+ #}
 {% set CUBE_TABS = [
   'White',
   'Blue',
   'Black',
   'Red',
   'Green',
-  'Artifact',
+  'Colorless',
   'Multicolored',
   'Land'
 ] %}
@@ -24,18 +27,16 @@
     for a text file of the MTG database.
   </p>
 
-  <div ng-controller="CubeTabsCtrl">
+  <div ng-controller="CubeTabsCtrl" ng-init="InitTab('{{ CUBE_TABS[0] }}')">
     <ul class="nav nav-tabs">
     {% for tab in CUBE_TABS %}
-      <li><a ng-click="SetTab('{{ tab }}')" data-toggle="tab">{{ tab }}</a></li>
+      <li>
+        <a ng-click="SetTab('{{ tab }}')" data-toggle="tab">{{ tab }}</a>
+      </li>
     {% endfor %}
     </ul>
 
-    [[ current_tab ]]
-
-    {#
     <div id="cube_content" class="tab-content">
-    {% for tab in cube_tabs %}
       <div class="tab-pane" id="{{ tab|lower }}">
         <table class="table table-hover table-bordered">
           <thead>
@@ -46,11 +47,18 @@
             <th><a href="javascript:void(0)" class="p">P</a></th>
             <th><a href="javascript:void(0)" class="t">T</a></th>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            <tr ng-repeat="card in GetCards()" bindonce>
+              <td bo-text="card.mana_cost"></td>
+              <td bo-text="card.name"></td>
+              <td bo-text="card.type"></td>
+              <td bo-text="card.text"></td>
+              <td bo-text="card.p || ''"></td>
+              <td bo-text="card.t || ''"></td>
+            </tr>
+          </tbody>
         </table>
       </div>
-    {% endfor %}
     </div>
-    #}
   </div>
 {% endblock %}

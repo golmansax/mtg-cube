@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import os, re, json
+import os, re, ujson
 
 DATABASE_FILE = 'dls/mtg_database.txt'
 COLOR_REGEX = '[wburgWBURG]'
@@ -15,7 +15,7 @@ ACT_TYPES = [
 ]
 
 OUT_DIR = 'generated'
-OUT_FILE = 'cube.json'
+OUT_FILE = 'cube_map.json'
 
 # Lets read in the database and create a map
 fin = open(DATABASE_FILE, 'r')
@@ -128,5 +128,5 @@ for group, cards in cube_map.items():
 
 if not os.path.exists(OUT_DIR): os.makedirs(OUT_DIR)
 fout = open('%s/%s' % (OUT_DIR, OUT_FILE), 'w')
-json.dump(cube_map, fout, separators=(',' , ':'))
+fout.write(ujson.dumps(cube_map, fout))
 fout.close()

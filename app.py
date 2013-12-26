@@ -1,10 +1,17 @@
-import sys
+import sys, ujson
 from flask import Flask, render_template, url_for
+
 app = Flask(__name__)
 
 @app.route('/')
 def app_main():
-  return render_template('app.html')
+  fin = open('data/generated/cube_map.json', 'r')
+  cube_map_raw = fin.readline()
+  fin.close()
+
+  return render_template('app.html',
+      # Let's do this the ghetto way to save a json encode/decode
+      JS_VARS_FROM_SERVER_JSON=('{cube_map:%s}' % cube_map_raw))
 
 @app.template_filter('url_for_asset')
 def url_for_asset_filter(filename):
