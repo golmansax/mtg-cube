@@ -51,15 +51,18 @@ compile_js() {
 # Go into script directory (which is the repo directory)
 cd "$(dirname "$0")"
 
-if [ $DEPLOY_MODE == 'js' ]; then
-  compile_js
-elif [ $DEPLOY_MODE == 'sass' ]; then
-  compile_sass
-else
+if [ $# -lt 2 ]; then
+  # No deploy mode specified
   pull_latest
   compile_sass
   compile_js
 
   # Launch app
   python $APP_FILE $ENV
+else
+  if [ $DEPLOY_MODE == 'js' ]; then
+    compile_js
+  elif [ $DEPLOY_MODE == 'sass' ]; then
+    compile_sass
+  fi
 fi

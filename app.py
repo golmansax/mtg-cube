@@ -21,7 +21,7 @@ if __name__ == '__main__':
   # Check if we should run in production
   if len(sys.argv) >= 3 and sys.argv[2] == 'prod':
     # Production
-    pass
+    app.port = 7702
   else:
     # Development
     app.debug = True
