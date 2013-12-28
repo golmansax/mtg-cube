@@ -63,8 +63,8 @@ if [ $# -lt 2 ]; then
     python $APP_FILE $ENV
   elif [ $ENV == 'prod' ]; then
     # Launch uWSGI
-    echo 'If uWSGI ini file not installed, run:' \
-      "'ln -s /home/holman/src/mtg-cube/uwsgi/mtg-cube.ini " \
+    echo 'If uWSGI ini file not installed, run:'
+    echo "  'ln -s /home/holman/src/mtg-cube/uwsgi/mtg-cube.ini " \
       "/etc/uwsgi/vassals/'"
     sudo stop uwsgi && sudo start uwsgi
   fi
