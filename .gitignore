@@ -1,6 +1,9 @@
 # Vim swp
 *.swp
 
+# Python
+*.pyc
+
 # Generated assets
 static/assets
 

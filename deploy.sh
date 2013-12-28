@@ -58,7 +58,16 @@ if [ $# -lt 2 ]; then
   compile_js
 
   # Launch app
-  python $APP_FILE $ENV
+  if [ $ENV == 'dev' ]; then
+    # Use built in server
+    python $APP_FILE $ENV
+  elif [ $ENV == 'prod' ]; then
+    # Launch uWSGI
+    echo 'If uWSGI ini file not installed, run:' \
+      "'ln -s /home/holman/src/mtg-cube/uwsgi/mtg-cube.ini " \
+      "/etc/uwsgi/vassals/'"
+    sudo stop uwsgi && sudo start uwsgi
+  fi
 else
   if [ $DEPLOY_MODE == 'js' ]; then
     compile_js
