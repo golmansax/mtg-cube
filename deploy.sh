@@ -48,6 +48,13 @@ compile_js() {
   #rm static/assets/build.txt
 }
 
+generate_data() {
+  cd data
+  ./dl_cardlist.sh
+  ./mtg_lookup.py
+  cd ..
+}
+
 # Go into script directory (which is the repo directory)
 cd "$(dirname "$0")"
 
@@ -56,6 +63,7 @@ if [ $# -lt 2 ]; then
   pull_latest
   compile_sass
   compile_js
+  generate_data
 
   # Launch app
   if [ $ENV == 'dev' ]; then
@@ -73,5 +81,7 @@ else
     compile_js
   elif [ $DEPLOY_MODE == 'sass' ]; then
     compile_sass
+  elif [ $DEPLOY_MODE == 'data' ]; then
+    generate_data
   fi
 fi
