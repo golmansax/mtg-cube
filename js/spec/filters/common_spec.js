@@ -1,6 +1,8 @@
 define([
   '../../app/my_namespace', 'mocks'
 ], function(my_namespace) {
+  'use strict';
+
   describe('Common filters', function() {
     beforeEach(module(my_namespace + '.filters'));
 
