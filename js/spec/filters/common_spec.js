@@ -11,8 +11,8 @@ define([
     function RegexReplaceSpec() {
       var regex_replaceFilter;
 
-      beforeEach(inject(function($injector) {
-        regex_replaceFilter = $injector.get('regex_replaceFilter');
+      beforeEach(inject(function(_regex_replaceFilter_) {
+        regex_replaceFilter = _regex_replaceFilter_;
       }));
 
       var opts = {
@@ -43,6 +43,6 @@ define([
           opts.string, opts.regex_str, opts.regex_flags, opts.new_val
         )).toBe(opts.answer);
       }
-    });
+    }
   });
 });
