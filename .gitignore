@@ -17,3 +17,10 @@ data/dls
 
 # Files downloaded via Bower
 bower_components
+
+# Files downloaded via NPM
+node_modules
+
+# Grunt files
+.grunt
+_SpecRunner.html

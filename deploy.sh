@@ -13,7 +13,7 @@ ENV=$1
 DEPLOY_MODE=$2
 
 usage() {
-  echo "Usage ./deploy.sh (dev|prod)"
+  echo "Usage ./deploy.sh [dev|prod] [optional:js|css|data|server]"
   exit
 }
 
@@ -31,16 +31,16 @@ pull_latest() {
   bower update
 }
 
-compile_sass() {
-  compass compile -c assets/sass/compass.rb --force
+compile_css () {
+  compass compile -c css/compass.rb --force
 }
 
 compile_js() {
   if [ $ENV == 'dev' ]; then
     # No minifying in dev
-    r.js -o assets/js/build.js optimize=none
+    node /usr/bin/r.js -o js/app/build.js optimize=none
   elif [ $ENV == 'prod' ]; then
-    r.js -o assets/js/build.js
+    node /usr/bin/r.js -o js/app/build.js wrap=true
   fi
 
   # Remove the generated build.txt file
@@ -55,17 +55,7 @@ generate_data() {
   cd ..
 }
 
-# Go into script directory (which is the repo directory)
-cd "$(dirname "$0")"
-
-if [ $# -lt 2 ]; then
-  # No deploy mode specified
-  pull_latest
-  compile_sass
-  compile_js
-  generate_data
-
-  # Launch app
+deploy_server() {
   if [ $ENV == 'dev' ]; then
     # Use built in server
     python $APP_FILE $ENV
@@ -76,12 +66,28 @@ if [ $# -lt 2 ]; then
       "/etc/uwsgi/vassals/'"
     sudo stop uwsgi && sudo start uwsgi
   fi
+}
+
+# Go into script directory (which is the repo directory)
+cd "$(dirname "$0")"
+
+if [ $# -lt 2 ]; then
+  # No deploy mode specified, so run everything
+  pull_latest
+  compile_css
+  compile_js
+  generate_data
+  deploy_server
 else
   if [ $DEPLOY_MODE == 'js' ]; then
     compile_js
-  elif [ $DEPLOY_MODE == 'sass' ]; then
-    compile_sass
+  elif [ $DEPLOY_MODE == 'css' ]; then
+    compile_css
   elif [ $DEPLOY_MODE == 'data' ]; then
     generate_data
+  elif [ $DEPLOY_MODE == 'server' ]; then
+    deploy_server
+  else
+    usage
   fi
 fi

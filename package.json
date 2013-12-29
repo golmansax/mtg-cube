@@ -1,0 +1,13 @@
+{
+  "name": "mtg-cube",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/golmansax/mtg-cube"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-contrib-jasmine": "latest",
+    "grunt-template-jasmine-requirejs": "latest"
+  }
+}

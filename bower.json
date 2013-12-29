@@ -1,7 +1,7 @@
 {
   "name": "mtg-cube",
   "version": "0.0.0",
-  "homepage": "https://github.com/golmansax/mtg-cube",
+  "homepage": "http://golmansax.com/mtg-cube",
   "authors": [
     "Holman Gao <holman@golmansax.com>"
   ],
@@ -19,6 +19,7 @@
     "requirejs": "latest",
     "requirejs-domready": "latest",
     "angular": "latest",
+    "angular-mocks": "latest",
     "angular-bindonce": "latest"
   }
 }
