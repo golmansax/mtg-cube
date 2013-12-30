@@ -56,12 +56,11 @@
   </p>
 
   <div ng-controller="CubeTabsCtrl"
-      ng-init="current.color = ('{{ CUBE_COLORS[0] }}' | format_color)">
+      ng-init="current.color = '{{ CUBE_COLORS[0] }}'">
     <ul class="nav nav-tabs">
       {% for tab in CUBE_COLORS %}
         <li>
-          <a ng-click="current.color = ('{{ tab }}' | format_color)"
-              href="javascript:void(0)">
+          <a ng-click="current.color = '{{ tab }}'" href="javascript:void(0)">
             {{ tab }}
           </a>
         </li>

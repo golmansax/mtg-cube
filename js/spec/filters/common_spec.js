@@ -3,7 +3,7 @@ define([
 ], function(my_namespace) {
   'use strict';
 
-  describe('Common filters', function() {
+  describe('common filters', function() {
     beforeEach(module(my_namespace + '.filters'));
 
     describe('regex_replace', RegexReplaceSpec);

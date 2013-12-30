@@ -1,4 +1,4 @@
-define(['./module'], function(controllers) {
+define(['angular', './module'], function(angular, controllers) {
   'use strict';
 
   controllers.controller('CubeTabsCtrl', [
@@ -19,17 +19,9 @@ define(['./module'], function(controllers) {
     var _previous, _cached_cards;
 
     $scope.GetCards = function() {
-      if (_previous) {
-        // Do a deep check to see if the states are equal
-        var equal = true;
-        for (var key in _previous) {
-          if (_previous[key] !== $scope.current[key]) {
-            equal = false;
-            break;
-          }
-        }
-
-        if (equal) return _cached_cards;
+      // Do a deep check to see if the current state is same as previous
+      if (_previous && angular.equals(_previous, $scope.current)) {
+        return _cached_cards;
       }
 
       var my_cards = cube.GetCards($scope.current);

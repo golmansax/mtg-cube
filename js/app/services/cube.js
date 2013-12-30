@@ -24,7 +24,6 @@ define(['./module'], function(services) {
     //   sort - Can be empty
     cube.GetCards = _GetCards;
 
-
     return cube;
 
     function _InitCubeMap() {
@@ -32,7 +31,7 @@ define(['./module'], function(services) {
       var temp_cube_map = from_server.Get('cube_map');
 
       for (var color in temp_cube_map) {
-        _cube_map[$filter('format_color')(color)] = temp_cube_map[color];
+        _cube_map[_FormatColorForMap(color)] = temp_cube_map[color];
       }
     }
 
@@ -77,11 +76,25 @@ define(['./module'], function(services) {
 
       // First filter by color
       // TODO: don't require this step!
-      if (opts.color) cards = _cube_map[opts.color];
+      if (opts.color) {
+        var formatted_color = _FormatColorForMap(opts.color);
+
+        // If color does not exist, return an empty array
+        if (!_cube_map.hasOwnProperty(formatted_color)) return [];
+
+        cards = _cube_map[formatted_color];
+      }
 
       // Now sort the remaining cards
       cards.sort(_CompareFns[opts.sort] || _CompareFns.Default);
       return cards;
+    }
+
+    // We use this function to sync how the color is stored in the map
+    // Right now all of the colors are stored in lower case only, to be more
+    //   flexible with access.
+    function _FormatColorForMap(color) {
+      return color.toLowerCase();
     }
   }
 });
