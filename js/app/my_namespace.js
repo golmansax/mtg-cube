@@ -1,1 +1,1 @@
-define(function() { return 'cube' });
+define(function() { return 'cube'; });

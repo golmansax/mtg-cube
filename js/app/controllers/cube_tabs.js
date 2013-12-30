@@ -13,7 +13,7 @@ define(['angular', './module'], function(angular, controllers) {
     $scope.current = {
       color: null,
       sort: null
-    }
+    };
 
     // Keep track of last state that generated a cardlist
     var _previous, _cached_cards;

@@ -9,6 +9,6 @@ define(['./module'], function(filters) {
     return function(string, regex_str, regex_flags, new_val) {
       var regex = new RegExp(regex_str, regex_flags);
       return string.replace(regex, new_val);
-    }
+    };
   }
 });

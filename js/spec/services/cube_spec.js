@@ -16,7 +16,7 @@ define([
       // We need to specify cube_map in JS_VARS_FROM_SERVER
       window.JS_VARS_FROM_SERVER = {
         cube_map: cube_map
-      }
+      };
 
       inject(function(_cube_) {
         cube = _cube_;

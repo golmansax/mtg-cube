@@ -8,6 +8,7 @@
   "devDependencies": {
     "grunt": "latest",
     "grunt-contrib-jasmine": "latest",
+    "grunt-contrib-jshint": "latest",
     "grunt-template-jasmine-requirejs": "latest"
   }
 }
