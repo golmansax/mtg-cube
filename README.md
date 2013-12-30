@@ -1,6 +1,7 @@
 MTG Cube
 ========
-Flask and AngularJS app that displays an MTG cube, with small functionality like filtering by color or sorting by type.
+Flask and AngularJS app that displays an MTG cube, with small functionality 
+like filtering by color or sorting by type.
 
 **TODO:**
 * make it look nice
@@ -9,4 +10,5 @@ Flask and AngularJS app that displays an MTG cube, with small functionality like
 * add search functionality
 * add sort for p/t
 
-**Built with:** Flask, AngularJS, RequireJS, Compass (Sass), Bower, nginx, uWSGI
+**Built with:** Flask, AngularJS, RequireJS, Compass (Sass), Bower, 
+Grunt, Jasmine, JSHint, nginx, uWSGI
