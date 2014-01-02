@@ -20,13 +20,16 @@
     grunt.registerTask('build:dev', ['compass:dev', 'requirejs:dev']);
     grunt.registerTask('lint', ['jshint']);
     grunt.registerTask('test', ['jasmine']);
-    grunt.registerTask('dev', ['lint', 'build:dev', 'test']);
+    grunt.registerTask('dev', ['lint', 'build:dev', 'build:data', 'test']);
 
     // Prod tasks
     grunt.registerTask('build:prod', ['compass:prod', 'requirejs:prod']);
 
     // Do a sanity check by running all dev commands first
     grunt.registerTask('prod', ['dev', 'build:prod']);
+
+    // Generate data
+    grunt.registerTask('build:data', ['shell:generate_data']);
   };
 
   return;

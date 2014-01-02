@@ -11,8 +11,9 @@
     "grunt-contrib-compass": "latest",
     "grunt-contrib-jasmine": "latest",
     "grunt-contrib-jshint": "latest",
-    "grunt-template-jasmine-requirejs": "latest",
     "grunt-contrib-requirejs": "latest",
+    "grunt-shell": "latest",
+    "grunt-template-jasmine-requirejs": "latest",
     "load-grunt-tasks": "latest",
     "lodash": "latest"
   }

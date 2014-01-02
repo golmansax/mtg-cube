@@ -13,7 +13,7 @@ ENV=$1
 DEPLOY_MODE=$2
 
 usage() {
-  echo "Usage ./deploy.sh [dev|prod] [optional:js|css|data|server]"
+  echo "Usage ./deploy.sh [dev|prod] [optional:server]"
   exit
 }
 
@@ -29,13 +29,6 @@ pull_latest() {
   fi
 
   bower update
-}
-
-generate_data() {
-  cd data
-  ./dl_cardlist.sh
-  ./mtg_lookup.py
-  cd ..
 }
 
 deploy_server() {
@@ -57,13 +50,10 @@ cd "$(dirname "$0")"
 if [ $# -lt 2 ]; then
   # No deploy mode specified, so run everything
   pull_latest
-  generate_data
   grunt $ENV
   deploy_server
 else
-  if [ $DEPLOY_MODE == 'data' ]; then
-    generate_data
-  elif [ $DEPLOY_MODE == 'server' ]; then
+  if [ $DEPLOY_MODE == 'server' ]; then
     deploy_server
   else
     usage
