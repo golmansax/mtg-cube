@@ -7,7 +7,7 @@
   module.exports = {
     dev: {
       options: _.extend(_RequireJsBaseOptions(), {
-        optimize: 'none',
+        optimize: 'none'
       })
     },
     prod: {
@@ -23,11 +23,10 @@
   function _RequireJsBaseOptions() {
     return {
       // The following urls are relative to root directory
-      baseUrl: 'js/app',
       mainConfigFile: 'js/app/main.js',
       out: 'static/assets/app.js',
 
-      // Following are relative to the baseUrl
+      // Following are relative to the mainConfigFile
       name: 'app',
       paths: {
         requireLib: '../../bower_components/requirejs/require'

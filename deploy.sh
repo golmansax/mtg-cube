@@ -31,23 +31,6 @@ pull_latest() {
   bower update
 }
 
-compile_css () {
-  compass compile -c css/compass.rb --force
-}
-
-compile_js() {
-  if [ $ENV == 'dev' ]; then
-    # No minifying in dev
-    node /usr/bin/r.js -o js/app/build.js optimize=none
-  elif [ $ENV == 'prod' ]; then
-    node /usr/bin/r.js -o js/app/build.js wrap=true
-  fi
-
-  # Remove the generated build.txt file
-  # TODO: This doesnt exist because I'm compiling individually
-  #rm static/assets/build.txt
-}
-
 generate_data() {
   cd data
   ./dl_cardlist.sh
@@ -74,16 +57,11 @@ cd "$(dirname "$0")"
 if [ $# -lt 2 ]; then
   # No deploy mode specified, so run everything
   pull_latest
-  compile_css
-  compile_js
   generate_data
+  grunt $ENV
   deploy_server
 else
-  if [ $DEPLOY_MODE == 'js' ]; then
-    compile_js
-  elif [ $DEPLOY_MODE == 'css' ]; then
-    compile_css
-  elif [ $DEPLOY_MODE == 'data' ]; then
+  if [ $DEPLOY_MODE == 'data' ]; then
     generate_data
   elif [ $DEPLOY_MODE == 'server' ]; then
     deploy_server
