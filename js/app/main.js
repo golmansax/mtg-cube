@@ -1,4 +1,4 @@
-// All paths are relative to js/app/build.js
+// All paths are relative to app dir (js/app)
 require.config({
   paths: {
     domReady: '../../bower_components/requirejs-domready/domReady',
