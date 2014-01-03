@@ -1,0 +1,6 @@
+#!/bin/bash -e
+# @author holman
+#
+# Run unit-tests before committing on dev
+
+grunt test
