@@ -1,6 +1,7 @@
 define([
-  '../../app/my_namespace', '../data/cube_map', 'mocks'
-], function(my_namespace, cube_map) {
+  '../../app/my_namespace', '../data/cube_map', '../data/js_vars_from_server',
+  'mocks'
+], function(my_namespace, cube_map, js_vars_from_server) {
   'use strict';
 
   describe('cube service', function() {
@@ -14,9 +15,7 @@ define([
 
     beforeEach(function() {
       // We need to specify cube_map in JS_VARS_FROM_SERVER
-      window.JS_VARS_FROM_SERVER = {
-        cube_map: cube_map
-      };
+      js_vars_from_server.Set({ cube_map: cube_map });
 
       inject(function(_cube_) {
         cube = _cube_;

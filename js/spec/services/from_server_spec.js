@@ -1,6 +1,6 @@
 define([
-  'angular', '../../app/my_namespace', 'mocks'
-], function(angular, my_namespace) {
+  'angular', '../../app/my_namespace', '../data/js_vars_from_server', 'mocks'
+], function(angular, my_namespace, js_vars_from_server) {
   'use strict';
 
   describe('from_server service', function() {
@@ -17,8 +17,8 @@ define([
 
     beforeEach(module(my_namespace + '.services'));
     beforeEach(function() {
-      // This variable is where the service grabs the data
-      window.JS_VARS_FROM_SERVER = angular.copy(JS_VARS_FROM_SERVER_MOCK);
+      // This sets the data that is grabbed by the from_server service
+      js_vars_from_server.Set(JS_VARS_FROM_SERVER_MOCK);
 
       inject(function(_from_server_) {
         from_server = _from_server_;
