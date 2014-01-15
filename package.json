@@ -14,7 +14,6 @@
     "grunt-contrib-requirejs": "latest",
     "grunt-shell": "latest",
     "grunt-template-jasmine-requirejs": "latest",
-    "load-grunt-tasks": "latest",
-    "lodash": "latest"
+    "load-grunt-tasks": "latest"
   }
 }

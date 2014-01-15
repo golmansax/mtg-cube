@@ -1,27 +1,21 @@
 (function() {
   'use strict';
 
-  // Require Lo-Dash to get access to its utility functions
-  var _ = require('lodash');
-
   module.exports = {
     dev: {
-      options: _.extend(_RequireJsBaseOptions(), {
+      options: {
         optimize: 'none'
-      })
+      }
     },
     prod: {
-      options: _.extend(_RequireJsBaseOptions(), {
+      options: {
         // Wrap in a closure if we are in prod
         wrap: true
-      })
-    }
-  };
+      }
+    },
 
-  return;
-
-  function _RequireJsBaseOptions() {
-    return {
+    // Share options among subtasks
+    options: {
       // The following urls are relative to root directory
       mainConfigFile: 'js/app/main.js',
       out: 'static/assets/app.js',
@@ -46,6 +40,7 @@
 
       // Allow 'use strict';
       useStrict: true
-    };
-  }
+    }
+  };
+
 })();
