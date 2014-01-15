@@ -1,7 +1,7 @@
 define([
-  '../../app/my_namespace', '../data/cube_map', '../data/js_vars_from_server',
-  'mocks'
-], function(my_namespace, cube_map, js_vars_from_server) {
+  'angular', '../../app/my_namespace', '../data/cube_map',
+  '../data/js_vars_from_server', 'mocks'
+], function(angular, my_namespace, cube_map, js_vars_from_server) {
   'use strict';
 
   describe('cube service', function() {
@@ -27,9 +27,9 @@ define([
     });
 
     it('should get cards of a single color when specified', function() {
-      for (var color in cube_map) {
-        expect(cube.GetCards({ color: color })).toEqual(cube_map[color]);
-      }
+      angular.forEach(cube_map, function(cards, color) {
+        expect(cube.GetCards({ color: color })).toEqual(cards);
+      });
     });
 
     // TODO make sure sorting works

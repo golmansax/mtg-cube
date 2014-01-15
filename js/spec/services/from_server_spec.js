@@ -29,9 +29,9 @@ define([
     });
 
     it('should get variables correctly', function() {
-      for (var key in JS_VARS_FROM_SERVER_MOCK) {
-        expect(from_server.Get(key)).toEqual(JS_VARS_FROM_SERVER_MOCK[key]);
-      }
+      angular.forEach(JS_VARS_FROM_SERVER_MOCK, function(value, key) {
+        expect(from_server.Get(key)).toEqual(value);
+      });
 
       expect(console.error).not.toHaveBeenCalled();
     });

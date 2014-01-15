@@ -1,6 +1,6 @@
 define([
-  '../../app/my_namespace', 'mocks'
-], function(my_namespace) {
+  'angular', '../../app/my_namespace', 'mocks'
+], function(angular, my_namespace) {
   'use strict';
 
   describe('common filters', function() {

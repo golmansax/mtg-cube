@@ -4,7 +4,7 @@
 // Paths are relative to root directory (because that is where grunt runs from)
 require.config({
   paths: {
-    mocks: 'bower_components/angular-mocks/angular-mocks',
+    mocks: 'bower_components/angular-mocks/angular-mocks'
   },
 
   shim: {

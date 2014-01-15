@@ -1,1 +1,4 @@
-define(function() { return 'cube'; });
+define(function() {
+  'use strict';
+  return 'cube';
+});

@@ -1,4 +1,4 @@
-define(['./module'], function(services) {
+define(['angular', './module'], function(angular, services) {
   'use strict';
 
   services.factory('cube', ['$filter', 'from_server', Cube]);
@@ -30,14 +30,16 @@ define(['./module'], function(services) {
       _cube_map = {};
       var temp_cube_map = from_server.Get('cube_map');
 
-      for (var color in temp_cube_map) {
-        _cube_map[_FormatColorForMap(color)] = temp_cube_map[color];
-      }
+      angular.forEach(temp_cube_map, function(cards, color) {
+        _cube_map[_FormatColorForMap(color)] = cards;
+      });
     }
 
     function _InitCompareFns() {
       _CompareFns = {};
 
+      // I don't know how to solve this right now...
+      /* jshint -W074 */
       _CompareFns.Default = function(a, b) {
         var cmp = a.generic_type.localeCompare(b.generic_type);
         if (cmp !== 0) return cmp;

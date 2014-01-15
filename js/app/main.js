@@ -8,7 +8,7 @@ require.config({
 
   shim: {
     angular: {
-      exports: 'angular',
+      exports: 'angular'
     },
     bindonce: {
       deps: ['angular']

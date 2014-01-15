@@ -4,6 +4,8 @@
  */
 
 define(['angular'], function(angular) {
+  'use strict';
+
   return {
     Set: function(data) {
       window.JS_VARS_FROM_SERVER = angular.copy(data);

@@ -3,7 +3,11 @@
  * Mock interface for cube service
  */
 
-define({
-  // Returns an array of cards
-  GetCards: function() { return []; }
+define(function() {
+  'use strict';
+
+  return {
+    // Returns an array of cards
+    GetCards: function() { return []; }
+  };
 });

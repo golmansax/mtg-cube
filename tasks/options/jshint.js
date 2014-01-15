@@ -2,7 +2,13 @@
   'use strict';
 
   module.exports = {
-    src: ['Gruntfile.js', 'js/**/*.js', 'tasks/**/*.js'],
-    jshintrc: '.jshintrc'
+    // Options used by all tasks
+    options: {
+      jshintrc: true
+    },
+
+    src: ['js/app/**/*.js'],
+    test: ['js/spec/**/*.js'],
+    grunt: ['Gruntfile.js', 'tasks/**/*.js']
   };
 })();
