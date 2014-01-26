@@ -1,4 +1,4 @@
-import sys, ujson
+import os, sys, ujson
 from flask import Flask, render_template, url_for
 
 # Check command line to see if in production
@@ -21,7 +21,20 @@ def app_main():
 
 @app.template_filter('url_for_asset')
 def url_for_asset_filter(filename):
-  return url_for('static', filename=('assets/%s' % filename))
+  return dated_url_for('static', filename=('assets/%s' % filename))
+
+# Next two fns are for cache busting: http://flask.pocoo.org/snippets/40/
+@app.context_processor
+def override_url_for():
+  return dict(url_for=dated_url_for)
+
+def dated_url_for(endpoint, **values):
+  if endpoint == 'static':
+    filename = values.get('filename', None)
+    if filename:
+      file_path = os.path.join(app.root_path, endpoint, filename)
+      values['q'] = int(os.stat(file_path).st_mtime)
+  return url_for(endpoint, **values)
 
 if __name__ == '__main__':
   app.run()
